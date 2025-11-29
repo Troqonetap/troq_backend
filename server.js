@@ -33,8 +33,8 @@ app.post('/api/oneway/create', async (req, res) => {
       trip_mode: b.trip_mode,
       trip_type: b.trip_type,
 
-      ow_trip_date: b.date,
-      ow_trip_time: b.time,
+      ow_tripdate: b.date,
+      ow_triptime: b.time,
       ow_hours: b.hours,
 
       // PICKUP (MUST MATCH SUPABASE COLUMN NAMES)
@@ -74,3 +74,4 @@ app.post('/api/oneway/create', async (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+
