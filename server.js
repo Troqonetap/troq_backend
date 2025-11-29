@@ -17,6 +17,8 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 app.get('/', (req, res) => res.send('Troq backend working'));
 
 app.post('/api/oneway/create', async (req, res) => {
+
+  // API KEY CHECK
   const headerKey = req.headers['x-api-key'];
   if (!headerKey || headerKey !== API_KEY) {
     return res.status(401).json({ error: 'Unauthorized' });
@@ -25,24 +27,32 @@ app.post('/api/oneway/create', async (req, res) => {
   try {
     const b = req.body;
 
+    // 🔥 MATCH EXACT FIELD NAMES FROM SUPABASE + MANYCHAT
     const newData = {
       service_category: b.service_category,
       trip_mode: b.trip_mode,
       trip_type: b.trip_type,
+
       ow_trip_date: b.date,
       ow_trip_time: b.time,
       ow_hours: b.hours,
-      ow_pickup_text: b.pickup_text,
-      ow_pickup_lat: b.pickup_lat,
-      ow_pickup_lng: b.pickup_lng,
-      ow_drop_text: b.drop_text,
-      ow_drop_lat: b.drop_lat,
-      ow_drop_lng: b.drop_lng,
+
+      // PICKUP (MUST MATCH SUPABASE COLUMN NAMES)
+      ow_pickuptext: b.pickup_text,
+      ow_pickuplat: b.pickup_lat,
+      ow_pickuplng: b.pickup_lng,
+
+      // DROP
+      ow_droptext: b.drop_text,
+      ow_droplat: b.drop_lat,
+      ow_droplng: b.drop_lng,
+
       ow_username: b.username,
       ow_status: "price_pending",
       request_id: uuidv4()
     };
 
+    // INSERT
     const { data, error } = await supabase
       .from('oneway_bookings')
       .insert([newData])
