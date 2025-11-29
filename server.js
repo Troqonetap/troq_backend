@@ -27,31 +27,29 @@ app.post('/api/oneway/create', async (req, res) => {
   try {
     const b = req.body;
 
-    // 🔥 MATCH EXACT FIELD NAMES FROM SUPABASE + MANYCHAT
-    const newData = {
-      service_category: b.service_category,
-      trip_mode: b.trip_mode,
-      trip_type: b.trip_type,
+const newData = {
+  user_servicecategory: b.user_servicecategory,
+  user_tripmode: b.user_tripmode,
+  user_triptype: b.user_triptype,
 
-      ow_tripdate: b.date,
-      ow_triptime: b.time,
-      ow_hours: b.hours,
+  ow_tripdate: b.ow_tripdate,
+  ow_triptime: b.ow_triptime,
+  ow_hours: b.ow_hours,
 
-      // PICKUP (MUST MATCH SUPABASE COLUMN NAMES)
-      ow_pickuptext: b.pickup_text,
-      ow_pickuplat: b.pickup_lat,
-      ow_pickuplng: b.pickup_lng,
+  ow_pickuptext: b.ow_pickuptext,
+  ow_pickuplat: b.ow_pickuplat,
+  ow_pickuplng: b.ow_pickuplng,
 
-      // DROP
-      ow_droptext: b.drop_text,
-      ow_droplat: b.drop_lat,
-      ow_droplng: b.drop_lng,
+  ow_droptext: b.ow_droptext,
+  ow_droplat: b.ow_droplat,
+  ow_droplng: b.ow_droplng,
 
-      ow_username: b.username,
-      ow_status: "price_pending",
-      request_id: uuidv4()
-    };
+  ow_username: b.ow_username,
+  ow_phone: b.ow_phone,
 
+  request_id: b.request_id,
+  ow_status: "price_pending"
+};
     // INSERT
     const { data, error } = await supabase
       .from('oneway_bookings')
@@ -74,4 +72,5 @@ app.post('/api/oneway/create', async (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+
 
